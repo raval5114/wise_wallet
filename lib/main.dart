@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
       home: PieChartTesting(
         data: [],
         totalAmount: 1200,
+        chartType: "",
       ),
     );
   }
