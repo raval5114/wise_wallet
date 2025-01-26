@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wise_wallet/Data/pieChartModel.dart';
+import 'package:wise_wallet/Test/pie_chart_testing.dart';
 
 class IncomeTab extends StatefulWidget {
   const IncomeTab({super.key});
@@ -20,51 +22,12 @@ class _IncomeTabState extends State<IncomeTab> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              width: double.infinity,
-              height: 120,
-              margin: EdgeInsets.all(10),
-              color: Colors.amberAccent,
-              child: Center(
-                child: Text("Hello"),
-              ),
+            WiseWalletPieChart(
+              chartType: 'Income',
+              chartData: json['chartList'] ?? [],
+              amount: 140000,
             ),
-            Container(
-              width: double.infinity,
-              height: 120,
-              margin: EdgeInsets.all(10),
-              color: Colors.amberAccent,
-            ),
-            Container(
-              width: double.infinity,
-              height: 120,
-              margin: EdgeInsets.all(10),
-              color: Colors.amberAccent,
-            ),
-            Container(
-              width: double.infinity,
-              height: 120,
-              margin: EdgeInsets.all(10),
-              color: Colors.amberAccent,
-            ),
-            Container(
-              width: double.infinity,
-              height: 120,
-              margin: EdgeInsets.all(10),
-              color: Colors.amberAccent,
-            ),
-            Container(
-              width: double.infinity,
-              height: 120,
-              margin: EdgeInsets.all(10),
-              color: Colors.amberAccent,
-            ),
-            Container(
-              width: double.infinity,
-              height: 120,
-              margin: EdgeInsets.all(10),
-              color: Colors.amberAccent,
-            ),
+            ChartItemBreakdown(chartName: 'Income', items: [])
           ],
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io'; // For SocketException
@@ -11,7 +12,7 @@ class Auth {
 
   Future<bool> signin(String emailOrMobile, String password) async {
     // Replace with your server's IP or domain
-    final url = Uri.parse('http://10.9.2.100:3000/auth/Signin');
+    final url = Uri.parse('http://192.168.31.47:3000/auth/Signin');
 
     // Input validation
     if (emailOrMobile.isEmpty || password.isEmpty) {
@@ -37,7 +38,6 @@ class Auth {
       // Handle API response
       if (response.statusCode == 200) {
         final responseBody = jsonDecode(response.body);
-
         // Check for token in the response
         if (responseBody['token'] != null) {
           if (responseBody['user'] != null) {
@@ -45,6 +45,8 @@ class Auth {
             await secureStorage.write(
                 key: "emailOrMobile", value: emailOrMobile);
             await secureStorage.write(key: "password", value: password);
+            await secureStorage.write(
+                key: "token", value: responseBody['token']);
           }
 
           return true;

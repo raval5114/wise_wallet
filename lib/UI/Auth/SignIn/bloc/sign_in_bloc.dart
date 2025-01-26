@@ -37,9 +37,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       final emailOrMobile = await storage.read(key: "emailOrMobile");
       final password = await storage.read(key: "password");
 
-      debugPrint("Stored emailOrMobile: $emailOrMobile");
-      debugPrint("Stored password: $password");
-
       if (emailOrMobile != null && password != null) {
         // Attempt login
         try {

@@ -44,38 +44,8 @@ final json = {
     {
       "categoryName": "Food",
       "color": "0xFFFF5733",
-      "percent": 30.0,
+      "percent": 50.0,
       "amount": 5000.0
     },
-    {
-      "categoryName": "Transport",
-      "color": "0xFF33FF57",
-      "percent": 20.0,
-      "amount": 3000.0
-    },
-    {
-      "categoryName": "Utilities",
-      "color": "0xFF3357FF",
-      "percent": 10.0,
-      "amount": 1500.0
-    },
-    {
-      "categoryName": "Entertainment",
-      "color": "0xFFFF33A1",
-      "percent": 15.0,
-      "amount": 2500.0
-    },
-    {
-      "categoryName": "Health",
-      "color": "0xFF33FFD5",
-      "percent": 8.0,
-      "amount": 1200.0
-    },
-    {
-      "categoryName": "Education",
-      "color": "0xFF8E44AD",
-      "percent": 12.0,
-      "amount": 1800.0
-    }
   ]
 };

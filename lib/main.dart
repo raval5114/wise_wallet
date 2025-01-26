@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wise_wallet/Test/pie_chart_testing.dart';
+import 'package:wise_wallet/UI/Homepage/Homepage.dart';
+import 'package:wise_wallet/splashscreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,11 +25,7 @@ class MyApp extends StatelessWidget {
           ),
         ],
       ),
-      home: PieChartTesting(
-        data: [],
-        totalAmount: 1200,
-        chartType: "",
-      ),
+      home: SplashScreen(),
     );
   }
 }

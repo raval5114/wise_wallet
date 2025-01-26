@@ -2,68 +2,68 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:wise_wallet/Data/pieChartModel.dart';
 
-class PieChartTesting extends StatefulWidget {
-  const PieChartTesting({
-    super.key,
-  });
+// class PieChartTesting extends StatefulWidget {
+//   const PieChartTesting({
+//     super.key,
+//   });
 
-  @override
-  State<PieChartTesting> createState() => _PieChartTestingState();
-}
+//   @override
+//   State<PieChartTesting> createState() => _PieChartTestingState();
+// }
 
-class _PieChartTestingState extends State<PieChartTesting> {
-  late List<PieChartSectionData> data;
-  @override
-  void initState() {
-    data = chartList.chartList
-        .map((ChartData e) =>
-            PieChartSectionData(color: e.color, radius: e.percent))
-        .toList();
-    super.initState();
-  }
+// class _PieChartTestingState extends State<PieChartTesting> {
+//   late List<PieChartSectionData> data;
+//   @override
+//   void initState() {
+//     data = chartList.chartList
+//         .map((ChartData e) =>
+//             PieChartSectionData(color: e.color, radius: e.percent))
+//         .toList();
+//     super.initState();
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Pie Chart",
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
-        ),
-        centerTitle: true,
-      ),
-      body: ListView(
-        shrinkWrap: true,
-        children: [
-          SizedBox(
-            height: 50,
-          ),
-          WiseWalletPieChart(
-              chartType: "Income",
-              chartData: json['chartList'] ?? [],
-              amount: 150000),
-          SizedBox(
-            height: 10,
-          ),
-          ChartItemBreakdown(chartName: "Income", items: [
-            {"name": "Salary", "amount": 120000.50, "color": Colors.purple},
-            {
-              "name": "Freelancing",
-              "amount": 35000.00,
-              "color": Colors.deepPurpleAccent
-            },
-            {
-              "name": "Investments",
-              "amount": 15000.00,
-              "color": Colors.blueAccent
-            },
-            {"name": "Other", "amount": 5000.00, "color": Colors.grey}
-          ])
-        ],
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text(
+//           "Pie Chart",
+//           style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+//         ),
+//         centerTitle: true,
+//       ),
+//       body: ListView(
+//         shrinkWrap: true,
+//         children: [
+//           SizedBox(
+//             height: 50,
+//           ),
+//           WiseWalletPieChart(
+//               chartType: "Income",
+//               chartData: json['chartList'] ?? [],
+//               amount: 150000),
+//           SizedBox(
+//             height: 10,
+//           ),
+//           ChartItemBreakdown(chartName: "Income", items: [
+//             {"name": "Salary", "amount": 120000.50, "color": Colors.purple},
+//             {
+//               "name": "Freelancing",
+//               "amount": 35000.00,
+//               "color": Colors.deepPurpleAccent
+//             },
+//             {
+//               "name": "Investments",
+//               "amount": 15000.00,
+//               "color": Colors.blueAccent
+//             },
+//             {"name": "Other", "amount": 5000.00, "color": Colors.grey}
+//           ])
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class WiseWalletPieChart extends StatefulWidget {
   final String chartType;
