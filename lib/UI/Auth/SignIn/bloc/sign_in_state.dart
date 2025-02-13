@@ -15,6 +15,8 @@ class LoginScreenLoggedOutState extends SignInActionState {}
 
 class SignInUSerLoginLoadingState extends SignInActionState {}
 
+class LogOutState extends SignInActionState {}
+
 class SignINUserLoginErrorState extends SignInActionState {
   final String error;
 

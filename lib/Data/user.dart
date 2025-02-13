@@ -1,6 +1,6 @@
 import 'package:wise_wallet/Data/bankAccount.dart';
 
-class User {
+class User extends UserBankAccount {
   String? firstName, lastName, email, dob, mobile, password;
 
   void loadSession(Map<String, dynamic> json) {
@@ -37,21 +37,26 @@ class NewUser extends User {
   }
 }
 
-class UserBankAccount extends User {
-  late BankAccount userBankAccountDetails;
-  void setBankAccountDetails({
-    required String accountHolderName,
-    required String mobileNumber,
-    required List<Banks> banks,
-  }) {
+class UserBankAccount {
+  BankAccount? userBankAccountDetails;
+
+  void setBankAccountDetails(Map<String, dynamic> json) {
+    var userData = json['user'];
+    List<Banks> userBanks = (userData['banks'] as List)
+        .map((bank) => Banks.fromJson(bank))
+        .toList();
+
     userBankAccountDetails = BankAccount(
-      accountHolderName: accountHolderName,
-      mobileNumber: mobileNumber,
-      banks: banks,
+      accountHolderName: userData['accountHolderName'],
+      mobileNumber: userData['mobileno'].toString(),
+      banks: userBanks,
     );
+  }
+
+  void clearBankAccountDetails() {
+    userBankAccountDetails = null;
   }
 }
 
 User userSession = User();
 NewUser regUser = NewUser();
-UserBankAccount bankAccount = UserBankAccount();

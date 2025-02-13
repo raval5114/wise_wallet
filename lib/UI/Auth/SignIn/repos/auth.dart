@@ -4,15 +4,17 @@ import 'dart:convert';
 import 'dart:io'; // For SocketException
 import 'dart:async'; // For TimeoutException
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:wise_wallet/Data/config.dart';
 import 'package:wise_wallet/Data/user.dart';
 
 class Auth {
+  final String _domain = DOMAIN_IP;
   // Secure storage instance for storing tokens securely
   final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
   Future<bool> signin(String emailOrMobile, String password) async {
     // Replace with your server's IP or domain
-    final url = Uri.parse('http://192.168.31.47:3000/auth/Signin');
+    final url = Uri.parse('$_domain:3000/auth/Signin');
 
     // Input validation
     if (emailOrMobile.isEmpty || password.isEmpty) {
@@ -38,16 +40,9 @@ class Auth {
       // Handle API response
       if (response.statusCode == 200) {
         final responseBody = jsonDecode(response.body);
-        // Check for token in the response
+        // Check for token in the responses
         if (responseBody['token'] != null) {
-          if (responseBody['user'] != null) {
-            userSession.loadSession(responseBody['user']);
-            await secureStorage.write(
-                key: "emailOrMobile", value: emailOrMobile);
-            await secureStorage.write(key: "password", value: password);
-            await secureStorage.write(
-                key: "token", value: responseBody['token']);
-          }
+          await secureStorage.write(key: "token", value: responseBody['token']);
 
           return true;
         } else {
@@ -70,18 +65,67 @@ class Auth {
     }
   }
 
-  void signOut() async {
-    userSession.cleanOutSession();
-    await secureStorage.delete(key: "emailOrMobile");
-    await secureStorage.delete(key: "password");
+  Future<void> getDashBoard(String token) async {
+    final url = Uri.parse("$_domain:3000/auth/dashboard");
+
+    if (token.isEmpty) {
+      throw Exception("Token Required");
+    }
+
+    try {
+      final headers = {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      };
+
+      final response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        debugPrint("Dashboard Data: $data");
+        userSession.loadSession(data['user']);
+      } else {
+        debugPrint("Error: ${response.statusCode}, ${response.body}");
+        throw Exception("Failed to fetch dashboard: ${response.body}");
+      }
+    } catch (e) {
+      throw Exception("Network Error: $e");
+    }
   }
 
-  Future<String?> getToken() async {
-    try {
-      return await secureStorage.read(key: 'authToken');
-    } catch (e) {
-      throw Exception('Error retrieving token: $e');
+  Future<Map<String, dynamic>> getAccountDetails(String token) async {
+    final url = Uri.parse("$_domain:3000/banks/accounts");
+
+    if (token.isEmpty) {
+      throw Exception("Token Required");
     }
+
+    try {
+      final headers = {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      };
+
+      final response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        debugPrint("Account Details: $data");
+        return data;
+      } else {
+        debugPrint("Error: ${response.statusCode}, ${response.body}");
+        throw Exception("Failed to fetch account details: ${response.body}");
+      }
+    } catch (e) {
+      print("Network Error: $e");
+      throw Exception("Network Error: $e");
+    }
+  }
+
+  void signOut() async {
+    userSession.cleanOutSession();
+
+    await secureStorage.delete(key: "token");
   }
 }
 

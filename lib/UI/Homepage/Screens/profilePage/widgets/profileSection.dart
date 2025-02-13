@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wise_wallet/Data/user.dart';
 
 class ProfileSection extends StatefulWidget {
   const ProfileSection({super.key});
@@ -10,28 +11,33 @@ class ProfileSection extends StatefulWidget {
 class _ProfileSectionState extends State<ProfileSection> {
   @override
   Widget build(BuildContext context) {
+    String profileImage =
+        "${userSession.firstName?[0]}" + "${userSession.lastName?[0]}";
     return Column(
       children: [
         CircleAvatar(
           radius: 50,
-          child: Text("HR"),
+          child: Text(
+            "$profileImage",
+            style: TextStyle(fontSize: 30),
+          ),
         ),
         const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              "Martina Alex",
+            Text(
+              "${userSession.firstName} ${userSession.lastName}",
               style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
             ),
             const SizedBox(width: 5),
           ],
         ),
-        const Text(
-          "martina.alex2015@gmail.com",
+        Text(
+          "${userSession.email}",
           style: TextStyle(
             fontSize: 14,
             color: Colors.grey,

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:wise_wallet/Data/user.dart';
@@ -14,7 +15,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     on<LoginScreenLoginEvent>(loginScreenLoginEvent);
     on<LoginScreenLogoutEvent>(loginScreenLogoutEvent);
     on<LoginOnSplashScreenEvent>(loginOnSplashScreenEvent);
+    on<LogOutEvent>(logOutEvent);
   }
+
   FutureOr<void> loginScreenLogoutEvent(
       LoginScreenLogoutEvent event, Emitter<SignInState> emit) async {
     try {
@@ -33,15 +36,17 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     try {
       emit(SignInUSerLoginLoadingState());
 
-      // Read credentials from secure storage
-      final emailOrMobile = await storage.read(key: "emailOrMobile");
-      final password = await storage.read(key: "password");
-
-      if (emailOrMobile != null && password != null) {
+      final token = await storage.read(key: "token");
+      if (token != null) {
+        final decoded = JWT.decode(token);
+        //debugPrint("Token: ${decoded.payload}");
+        String emailOrMobile = decoded.payload["email"];
+        String password = decoded.payload["password"];
         // Attempt login
         try {
           await auth.signin(
               emailOrMobile, password); // Await the sign-in process
+          await auth.getDashBoard(token);
           debugPrint("${userSession.firstName}\n ${userSession.lastName}");
           emit(SignInUserLoggedInState());
         } catch (authError) {
@@ -57,17 +62,28 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       emit(SignINUserLoginErrorState(error: err.toString()));
     }
   }
-}
 
-FutureOr<void> loginScreenLoginEvent(
-    LoginScreenLoginEvent event, Emitter<SignInState> emit) async {
-  try {
-    emit(SignInUSerLoginLoadingState());
-    debugPrint("Loading");
-    await auth.signin(event.emailOrMobileNo, event.password);
-    emit(SignInUserLoggedInState());
-    debugPrint("UserLoggedIn");
-  } catch (err) {
-    emit(SignINUserLoginErrorState(error: err.toString()));
+  FutureOr<void> logOutEvent(
+      LogOutEvent event, Emitter<SignInState> emit) async {
+    auth.signOut();
+    emit(LogOutState());
+  }
+
+  FutureOr<void> loginScreenLoginEvent(
+      LoginScreenLoginEvent event, Emitter<SignInState> emit) async {
+    final FlutterSecureStorage storage = FlutterSecureStorage();
+
+    try {
+      emit(SignInUSerLoginLoadingState());
+      debugPrint("Loading");
+      await auth.signin(event.emailOrMobileNo, event.password);
+      final token = await storage.read(key: 'token');
+      await auth.getDashBoard(token!);
+
+      emit(SignInUserLoggedInState());
+      debugPrint("UserLoggedIn");
+    } catch (err) {
+      emit(SignINUserLoginErrorState(error: err.toString()));
+    }
   }
 }

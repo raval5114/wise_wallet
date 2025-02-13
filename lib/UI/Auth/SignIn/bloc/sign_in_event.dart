@@ -12,4 +12,6 @@ class LoginScreenLoginEvent extends SignInEvent {
 
 class LoginOnSplashScreenEvent extends SignInEvent {}
 
+class LogOutEvent extends SignInEvent {}
+
 class LoginScreenLogoutEvent extends SignInEvent {}

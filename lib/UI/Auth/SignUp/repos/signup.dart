@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:wise_wallet/Data/config.dart';
 import 'package:wise_wallet/Data/user.dart';
 
 class Signup {
+  final String _domain = DOMAIN_URL;
   Future<Map<String, dynamic>> signUp(Map<String, dynamic> user) async {
-    final url = Uri.parse("http://192.168.20.234:3000/auth/Signup");
+    final url = Uri.parse("$_domain:3000/auth/Signup");
 
     // Validate input fields
     if (user.values.any((value) => value == null || value.toString().isEmpty)) {

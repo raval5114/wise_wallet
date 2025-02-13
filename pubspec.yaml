@@ -46,6 +46,8 @@ dependencies:
   intl: ^0.20.1
   syncfusion_flutter_charts: ^28.1.38
   fl_chart: ^0.70.1
+  dart_jsonwebtoken: ^2.16.0
+  persistent_bottom_nav_bar: ^6.2.1
 flutter_native_splash:
   color: "#ffffff" # Background color of the splash screen
   image: assets/app_logo.png # Path to the splash image

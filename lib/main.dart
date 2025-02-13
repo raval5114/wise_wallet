@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wise_wallet/Test/persistent_navbar.dart';
 import 'package:wise_wallet/UI/Homepage/Homepage.dart';
 import 'package:wise_wallet/splashscreen.dart';
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wise_wallet/UI/Homepage/Screens/ScannerSection/scanner.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/cardPage/cardPage.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/homePage/homePage.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/profilePage/profilePage.dart';
@@ -13,14 +14,13 @@ class _CustomHomePageState extends State<CustomHomePage> {
   final List<Widget> _pages = [
     homePage(),
     CardPage(),
-    Container(), // Placeholder for the center button
+    ScannerSection(), // Placeholder for the center button
     StatePage(),
     ProfilePage(),
   ];
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
-    if (index == 2) return; // Do nothing for the central button
     setState(() {
       _selectedIndex = index;
     });
@@ -31,7 +31,7 @@ class _CustomHomePageState extends State<CustomHomePage> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex > 2 ? _selectedIndex - 1 : _selectedIndex,
+        currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
         items: [
@@ -44,12 +44,21 @@ class _CustomHomePageState extends State<CustomHomePage> {
             label: "Card",
           ),
           BottomNavigationBarItem(
-            icon: SizedBox(width: 48),
+            icon: CircleAvatar(
+              radius: 25,
+              backgroundColor: const Color(0xFF4A00E0),
+              child: const Icon(
+                Icons.center_focus_strong,
+                color: Colors.white,
+                size: 28,
+              ),
+            ),
+            // Placeholder for center button
             label: '',
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.insert_chart),
-            label: "Stat",
+            label: "State",
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.person),
@@ -61,19 +70,24 @@ class _CustomHomePageState extends State<CustomHomePage> {
         showSelectedLabels: true,
         showUnselectedLabels: true,
       ),
-      floatingActionButton: FloatingActionButton(
-        shape: CircleBorder(),
-        onPressed: () {
-          debugPrint("Central button pressed");
-        },
-        backgroundColor: const Color(0xFF4A00E0),
-        child: const Icon(
-          Icons.center_focus_strong,
-          color: Colors.white,
-          size: 28,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      //   floatingActionButton: FloatingActionButton(
+      //     shape: const CircleBorder(),
+      //     onPressed: () {
+      //       Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //             builder: (context) => ScannerSection(),
+      //           ));
+      //     },
+      //     backgroundColor: const Color(0xFF4A00E0),
+      //     child: const Icon(
+      //       Icons.center_focus_strong,
+      //       color: Colors.white,
+      //       size: 28,
+      //     ),
+      //   ),
+      //   floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // );
     );
   }
 }
