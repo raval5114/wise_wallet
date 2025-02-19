@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wise_wallet/UI/Homepage/Screens/homePage/bloc/home_page_bloc.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/homePage/widgets/src/appbar.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/homePage/widgets/balanceCard.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/homePage/widgets/transactionList.dart';
@@ -47,7 +49,10 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin {
                       ),
                     );
                   },
-                  child: BalanceCard(),
+                  child: BlocProvider(
+                    create: (context) => HomePageBloc(),
+                    child: BalanceCard(),
+                  ),
                 ),
                 const SizedBox(height: 10),
                 //       // Recent Transactions with Animation

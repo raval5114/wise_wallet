@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:math';
 import 'package:flutter/material.dart';
 
@@ -8,7 +7,7 @@ class AccountCard extends StatefulWidget {
   final String balance;
   final bool isVisa;
 
-  AccountCard({
+  const AccountCard({
     super.key,
     required this.bankName,
     required this.accountNumber,

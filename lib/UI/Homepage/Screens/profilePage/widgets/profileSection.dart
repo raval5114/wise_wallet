@@ -12,13 +12,13 @@ class _ProfileSectionState extends State<ProfileSection> {
   @override
   Widget build(BuildContext context) {
     String profileImage =
-        "${userSession.firstName?[0]}" + "${userSession.lastName?[0]}";
+        "${userSession.firstName?[0]}" "${userSession.lastName?[0]}";
     return Column(
       children: [
         CircleAvatar(
           radius: 50,
           child: Text(
-            "$profileImage",
+            profileImage,
             style: TextStyle(fontSize: 30),
           ),
         ),

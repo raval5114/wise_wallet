@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:wise_wallet/Data/bankAccount.dart';
 import 'package:wise_wallet/Data/user.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/cardPage/repos/cardPageRepo.dart';
@@ -22,10 +21,6 @@ class BankCardPageBloc extends Bloc<BankCardPageEvent, BankCardPageState> {
       userSession.setBankAccountDetails(listOfCard);
       emit(BankCardPageSuccesState(
           bankUserDetails: userSession.userBankAccountDetails!.banks));
-
-      if (listOfCard == null) {
-        emit(BankCardPageErrorState(errorMsg: "No Bank Account Found"));
-      }
     } catch (err) {
       debugPrint("Error: $err");
       emit(BankCardPageErrorState(errorMsg: err.toString()));

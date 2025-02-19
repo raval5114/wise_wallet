@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wise_wallet/UI/Auth/SignIn/bloc/sign_in_bloc.dart';
 import 'package:wise_wallet/UI/Auth/SignIn/signIn.dart';
 import 'package:wise_wallet/UI/Homepage/Homepage.dart';
@@ -16,7 +17,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   bool _showPreloader = false; // Control the visibility of the preloader
-  final FlutterSecureStorage storage = FlutterSecureStorage();
   SignInBloc bloc = SignInBloc();
   @override
   void initState() {

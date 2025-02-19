@@ -1,0 +1,2 @@
+D:/Flutter/wise_wallet/android/app/.cxx/Debug/371e6o57/x86_64/CMakeFiles/edit_cache.dir
+D:/Flutter/wise_wallet/android/app/.cxx/Debug/371e6o57/x86_64/CMakeFiles/rebuild_cache.dir

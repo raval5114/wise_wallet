@@ -4,15 +4,17 @@ import 'dart:convert';
 import 'dart:io'; // For SocketException
 import 'dart:async'; // For TimeoutException
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wise_wallet/Data/config.dart';
 import 'package:wise_wallet/Data/user.dart';
 
 class Auth {
   final String _domain = DOMAIN_IP;
   // Secure storage instance for storing tokens securely
-  final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+  late final SharedPreferences storage;
 
   Future<bool> signin(String emailOrMobile, String password) async {
+    storage = await SharedPreferences.getInstance();
     // Replace with your server's IP or domain
     final url = Uri.parse('$_domain:3000/auth/Signin');
 
@@ -42,7 +44,7 @@ class Auth {
         final responseBody = jsonDecode(response.body);
         // Check for token in the responses
         if (responseBody['token'] != null) {
-          await secureStorage.write(key: "token", value: responseBody['token']);
+          await storage.setString("token", responseBody['token']);
 
           return true;
         } else {
@@ -125,7 +127,7 @@ class Auth {
   void signOut() async {
     userSession.cleanOutSession();
 
-    await secureStorage.delete(key: "token");
+    await storage.remove('token');
   }
 }
 

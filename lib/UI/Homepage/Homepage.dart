@@ -6,6 +6,8 @@ import 'package:wise_wallet/UI/Homepage/Screens/profilePage/profilePage.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/statePage/statePage.dart';
 
 class CustomHomePage extends StatefulWidget {
+  const CustomHomePage({super.key});
+
   @override
   _CustomHomePageState createState() => _CustomHomePageState();
 }

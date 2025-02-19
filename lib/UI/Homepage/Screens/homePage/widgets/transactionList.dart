@@ -94,7 +94,7 @@ class _TransactionlistState extends State<Transactionlist> {
           ),
           const SizedBox(height: 8),
           // Wrap ListView.builder with Container to ensure size is fixed
-          Container(
+          SizedBox(
             height: 400, // Fixed height for the list inside SizedBox
             child: ListView.builder(
               shrinkWrap: true,

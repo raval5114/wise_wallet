@@ -48,6 +48,5 @@ class Transaction extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }

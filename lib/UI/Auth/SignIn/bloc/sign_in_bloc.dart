@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wise_wallet/Data/user.dart';
 import 'package:wise_wallet/UI/Auth/SignIn/repos/auth.dart';
 
@@ -31,12 +32,12 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   FutureOr<void> loginOnSplashScreenEvent(
       LoginOnSplashScreenEvent event, Emitter<SignInState> emit) async {
     // Initialize secure storage only once (if not already initialized)
-    final FlutterSecureStorage storage = FlutterSecureStorage();
+    final SharedPreferences storage = await SharedPreferences.getInstance();
 
     try {
       emit(SignInUSerLoginLoadingState());
 
-      final token = await storage.read(key: "token");
+      final token = await storage.getString("token");
       if (token != null) {
         final decoded = JWT.decode(token);
         //debugPrint("Token: ${decoded.payload}");

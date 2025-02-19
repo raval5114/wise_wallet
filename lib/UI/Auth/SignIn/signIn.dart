@@ -3,6 +3,8 @@ import 'package:wise_wallet/UI/Auth/SignIn/widgets/dashboard.dart';
 import 'package:wise_wallet/main.dart';
 
 class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final customTheme = Theme.of(context).extension<CustomTheme>();

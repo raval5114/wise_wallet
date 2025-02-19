@@ -20,6 +20,5 @@ class Iconbutton extends StatelessWidget {
         ),
       ],
     );
-    ;
   }
 }

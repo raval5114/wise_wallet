@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wise_wallet/Test/persistent_navbar.dart';
-import 'package:wise_wallet/UI/Homepage/Homepage.dart';
 import 'package:wise_wallet/splashscreen.dart';
 
 void main() {
@@ -13,21 +11,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Wise Wallets',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        extensions: <ThemeExtension>[
-          CustomTheme(
-            navyBlackGradient: const LinearGradient(
-              colors: [Color(0xFF000080), Colors.black], // Navy blue and black
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+        title: 'Wise Wallets',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          extensions: <ThemeExtension>[
+            CustomTheme(
+              navyBlackGradient: const LinearGradient(
+                colors: [
+                  Color(0xFF000080),
+                  Colors.black
+                ], // Navy blue and black
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
             ),
-          ),
-        ],
-      ),
-      home: SplashScreen(),
-    );
+          ],
+        ),
+        home: SplashScreen());
   }
 }
 

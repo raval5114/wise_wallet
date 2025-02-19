@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wise_wallet/UI/Auth/SignIn/bloc/sign_in_bloc.dart';
 import 'package:wise_wallet/UI/Auth/SignIn/repos/auth.dart';
 import 'package:wise_wallet/UI/Auth/SignIn/signIn.dart';
 import 'package:wise_wallet/main.dart';

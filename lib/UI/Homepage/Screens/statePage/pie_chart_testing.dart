@@ -1,6 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:wise_wallet/Data/pieChartModel.dart';
 
 // class PieChartTesting extends StatefulWidget {
 //   const PieChartTesting({

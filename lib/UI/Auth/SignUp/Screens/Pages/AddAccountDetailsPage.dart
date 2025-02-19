@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wise_wallet/UI/Auth/SignUp/Screens/src/addAccount.dart';
 import 'package:wise_wallet/UI/Auth/SignUp/bloc/sign_up_bloc.dart';
 import 'package:wise_wallet/UI/Homepage/Homepage.dart';
-import 'package:wise_wallet/UI/Homepage/Screens/homePage/homePage.dart';
 import 'package:wise_wallet/main.dart';
 
 class AddAccountDetailsPage extends StatefulWidget {

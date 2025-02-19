@@ -36,22 +36,16 @@ class _AccountListState extends State<Accountlist> {
         }
         if (state is BankCardPageSuccesState) {
           List<Banks> userBank = userSession.userBankAccountDetails!.banks;
-          if (userSession != null) {
-            return ListView.builder(
-              shrinkWrap: true,
-              itemCount: userBank.length,
-              itemBuilder: (context, index) => AccountCard(
-                bankName: '${userBank[index].bankName}',
-                accountNumber: '${userBank?[index].accountNumber}',
-                balance: '${userBank?[index].balance}',
-                isVisa: true,
-              ),
-            );
-          } else {
-            return Center(
-              child: Text("No Banks Available on this account"),
-            );
-          }
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: userBank.length,
+            itemBuilder: (context, index) => AccountCard(
+              bankName: userBank[index].bankName,
+              accountNumber: '${userBank[index].accountNumber}',
+              balance: '${userBank[index].balance}',
+              isVisa: true,
+            ),
+          );
         } else {
           return SizedBox();
         }
