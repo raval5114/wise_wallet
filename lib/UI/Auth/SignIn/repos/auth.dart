@@ -50,10 +50,6 @@ class Auth {
         } else {
           throw Exception('Token not found in response.');
         }
-      } else if (response.statusCode == 404) {
-        throw Exception('Error: User not found.');
-      } else if (response.statusCode == 401) {
-        throw Exception('Error: Invalid credentials.');
       } else {
         throw Exception(
             'Error: ${response.statusCode}, Response: ${response.body}');
