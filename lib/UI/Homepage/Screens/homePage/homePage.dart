@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/homePage/bloc/home_page_bloc.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/homePage/widgets/src/appbar.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/homePage/widgets/balanceCard.dart';
@@ -14,6 +15,18 @@ class homePage extends StatefulWidget {
 }
 
 class _homePageState extends State<homePage> with TickerProviderStateMixin {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    clearingRecords();
+  }
+
+  void clearingRecords() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('balance');
+  }
+
   @override
   Widget build(BuildContext context) {
     final customTheme = Theme.of(context).extension<CustomTheme>();

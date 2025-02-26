@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:wise_wallet/UI/Homepage/Screens/homePage/repos/homePageRepo.dart';
 
 part 'home_page_event.dart';
 part 'home_page_state.dart';

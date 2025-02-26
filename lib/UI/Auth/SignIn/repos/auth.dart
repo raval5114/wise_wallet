@@ -3,49 +3,53 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io'; // For SocketException
 import 'dart:async'; // For TimeoutException
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wise_wallet/Data/config.dart';
 import 'package:wise_wallet/Data/user.dart';
 
 class Auth {
   final String _domain = DOMAIN_IP;
-  // Secure storage instance for storing tokens securely
-  late final SharedPreferences storage;
+  SharedPreferences? storage;
+
+  Auth() {
+    _initStorage();
+  }
+
+  Future<void> _initStorage() async {
+    try {
+      storage = await SharedPreferences.getInstance();
+    } catch (e) {
+      debugPrint("Error initializing SharedPreferences: $e");
+    }
+  }
 
   Future<bool> signin(String emailOrMobile, String password) async {
-    storage = await SharedPreferences.getInstance();
-    // Replace with your server's IP or domain
+    await _initStorage();
+    if (storage == null) throw Exception("SharedPreferences not initialized");
+
     final url = Uri.parse('$_domain:3000/auth/Signin');
 
-    // Input validation
     if (emailOrMobile.isEmpty || password.isEmpty) {
       throw Exception('Email/Mobile and Password are required.');
     }
 
     try {
-      // Preparing the request payload
       final requestBody = jsonEncode({
         'emailOrMobile': emailOrMobile,
         'password': password,
       });
 
-      // Making the POST request with a timeout
       final response = await http.post(
         url,
         body: requestBody,
-        headers: {
-          'Content-Type': 'application/json', // Header for JSON payloads
-        },
+        headers: {'Content-Type': 'application/json'},
       ).timeout(const Duration(seconds: 10));
 
-      // Handle API response
       if (response.statusCode == 200) {
         final responseBody = jsonDecode(response.body);
-        // Check for token in the responses
         if (responseBody['token'] != null) {
-          await storage.setString("token", responseBody['token']);
-
+          await storage!.setString("token", responseBody['token']);
+          debugPrint("Token: ${responseBody['token']}");
           return true;
         } else {
           throw Exception('Token not found in response.');
@@ -64,6 +68,8 @@ class Auth {
   }
 
   Future<void> getDashBoard(String token) async {
+    await _initStorage();
+    if (storage == null) throw Exception("SharedPreferences not initialized");
     final url = Uri.parse("$_domain:3000/auth/dashboard");
 
     if (token.isEmpty) {
@@ -71,19 +77,22 @@ class Auth {
     }
 
     try {
-      final headers = {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      };
-
-      final response = await http.get(url, headers: headers);
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
-        debugPrint("Dashboard Data: $data");
-        userSession.loadSession(data['user']);
+        if (data.containsKey('user')) {
+          userSession.loadSession(data['user']);
+        } else {
+          throw Exception("User data not found in response.");
+        }
       } else {
-        debugPrint("Error: ${response.statusCode}, ${response.body}");
         throw Exception("Failed to fetch dashboard: ${response.body}");
       }
     } catch (e) {
@@ -92,6 +101,8 @@ class Auth {
   }
 
   Future<Map<String, dynamic>> getAccountDetails(String token) async {
+    await _initStorage();
+    if (storage == null) throw Exception("SharedPreferences not initialized");
     final url = Uri.parse("$_domain:3000/banks/accounts");
 
     if (token.isEmpty) {
@@ -99,33 +110,31 @@ class Auth {
     }
 
     try {
-      final headers = {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      };
-
-      final response = await http.get(url, headers: headers);
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
 
       if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        debugPrint("Account Details: $data");
-        return data;
+        return jsonDecode(response.body);
       } else {
-        debugPrint("Error: ${response.statusCode}, ${response.body}");
         throw Exception("Failed to fetch account details: ${response.body}");
       }
     } catch (e) {
-      print("Network Error: $e");
       throw Exception("Network Error: $e");
     }
   }
 
   void signOut() async {
+    await _initStorage();
+    if (storage != null) {
+      await storage!.remove('token');
+    }
     userSession.cleanOutSession();
-
-    await storage.remove('token');
   }
 }
 
-// Instantiate Auth for use throughout the app
 final Auth auth = Auth();

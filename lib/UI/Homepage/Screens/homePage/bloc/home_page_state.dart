@@ -7,7 +7,7 @@ class HomepageActionState extends HomePageState {}
 
 class NavigateToPINPortalState extends HomepageActionState {
   NavigateToPINPortalState() {
-    debugPrint("Navigate To the Pin Screen");
+    homePageRepo.getBalance();
   }
 }
 

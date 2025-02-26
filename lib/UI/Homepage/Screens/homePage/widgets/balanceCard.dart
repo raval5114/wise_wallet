@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/homePage/bloc/home_page_bloc.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/homePage/repos/homePageRepo.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/homePage/widgets/src/actionButton.dart';
 import 'package:wise_wallet/UI/PaymentScreens/PasswordEnteringScreen/passwordScreen.dart';
+import 'package:intl/intl.dart';
 
 class BalanceCard extends StatefulWidget {
   const BalanceCard({super.key});
@@ -13,7 +15,30 @@ class BalanceCard extends StatefulWidget {
 }
 
 class _BalanceCardState extends State<BalanceCard> {
-  final bool _isBalanceVisible = false;
+  late final SharedPreferences prefs;
+  bool _isBalanceVisible = false;
+  late String balc;
+
+  @override
+  void initState() {
+    super.initState();
+    checkingBalanceVisiblity();
+  }
+
+  void checkingBalanceVisiblity() async {
+    prefs = await SharedPreferences.getInstance();
+    if (prefs.getInt('balance') != null) {
+      setState(() {
+        int balance = prefs.getInt('balance')!;
+        balc = NumberFormat.currency(
+          locale: 'en_IN',
+          symbol: '',
+          decimalDigits: 0,
+        ).format(balance);
+        _isBalanceVisible = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +89,7 @@ class _BalanceCardState extends State<BalanceCard> {
                         .add(NavigateToPINPortalEvent());
                   },
                   child: Text(
-                    _isBalanceVisible ? "" : "Check Balance",
+                    _isBalanceVisible ? "Rs.$balc" : "Check Balance",
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 36.0,

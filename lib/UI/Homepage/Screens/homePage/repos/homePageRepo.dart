@@ -1,14 +1,47 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wise_wallet/Data/config.dart';
 
 class HomePageRepo {
-  late final SharedPreferences storage;
+  late SharedPreferences storage;
+  final Completer<void> _initCompleter = Completer<void>();
+
+  HomePageRepo() {
+    _initStorage();
+  }
+
+  Future<void> _initStorage() async {
+    if (!_initCompleter.isCompleted) {
+      try {
+        storage = await SharedPreferences.getInstance();
+        _startDisposalTimer();
+        _initCompleter.complete();
+      } catch (e) {
+        if (!_initCompleter.isCompleted) {
+          _initCompleter.completeError(e);
+        }
+      }
+    }
+    return _initCompleter.future;
+  }
+
+  void _startDisposalTimer() {
+    Timer(Duration(seconds: 30), () {
+      _disposeStorage();
+    });
+  }
+
+  void _disposeStorage() {
+    storage.clear();
+    print("SharedPreferences cleared after 30 seconds");
+  }
+
   Future<bool> getBalance() async {
-    storage = await SharedPreferences.getInstance();
+    await _initStorage();
     String? token = storage.getString('token');
-    if (token!.isEmpty) {
+    if (token == null || token.isEmpty) {
       throw Exception('Invalid or Expired Token');
     }
 

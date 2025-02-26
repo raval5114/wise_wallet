@@ -30,7 +30,9 @@ class _PasswordCheckingComponentState extends State<PasswordCheckingComponent> {
   void _moveToNextField(int currentIndex, String value) {
     if (value.isNotEmpty && currentIndex < 3) {
       FocusScope.of(context).requestFocus(_focusNodes[currentIndex + 1]);
-    } else if (value.isEmpty && currentIndex > 0) {
+    } else if (value.isEmpty &&
+        currentIndex > 0 &&
+        _controllers[currentIndex].text.isEmpty) {
       FocusScope.of(context).requestFocus(_focusNodes[currentIndex - 1]);
     }
   }
@@ -42,25 +44,29 @@ class _PasswordCheckingComponentState extends State<PasswordCheckingComponent> {
     final pin = _controllers.map((e) => e.text).join();
     debugPrint("Entered PIN: $pin");
 
-    if (pin.length < 4) {
+    // Validate PIN format
+    if (!RegExp(r'^\d{4}$').hasMatch(pin)) {
       setState(() {
-        _errorMessage = "Enter a 4-digit PIN";
+        _errorMessage = "Enter a valid 4-digit PIN";
         _isLoading = false;
       });
-      debugPrint("PIN is too short");
+      debugPrint("Invalid PIN format");
       return;
     }
 
     setState(() => _errorMessage = "");
 
     try {
-      final isValid = await repo.checkPin(pin);
+      String _pin = pin.toString();
+      final isValid = await repo.checkPin(_pin);
       debugPrint("PIN validation result: $isValid");
 
       if (isValid) {
         debugPrint("Calling onPinEntered...");
         widget.onPinEntered();
-        Navigator.pop(context);
+        Future.delayed(const Duration(milliseconds: 200), () {
+          Navigator.pop(context);
+        });
       } else {
         setState(() => _errorMessage = "Invalid PIN!");
         _clearFields();
@@ -79,9 +85,8 @@ class _PasswordCheckingComponentState extends State<PasswordCheckingComponent> {
     for (var controller in _controllers) {
       controller.clear();
     }
-    Future.delayed(const Duration(milliseconds: 100), () {
-      FocusScope.of(context).requestFocus(_focusNodes[0]);
-    });
+    setState(() {});
+    FocusScope.of(context).requestFocus(_focusNodes[0]);
   }
 
   @override
