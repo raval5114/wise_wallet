@@ -4,3 +4,5 @@ part of 'home_page_bloc.dart';
 sealed class HomePageEvent {}
 
 class NavigateToPINPortalEvent extends HomePageEvent {}
+
+class TransactionListFetchingEvent extends HomePageEvent {}

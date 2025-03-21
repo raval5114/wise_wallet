@@ -68,7 +68,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin {
                   ),
                 ),
                 const SizedBox(height: 10),
-                //       // Recent Transactions with Animation
+//       // Recent Transactions with Animation
               ],
             ),
             Container(
@@ -85,7 +85,10 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin {
                     ),
                   );
                 },
-                child: Transactionlist(),
+                child: BlocProvider(
+                  create: (context) => HomePageBloc(),
+                  child: Transactionlist(),
+                ),
               ),
             ),
           ]),

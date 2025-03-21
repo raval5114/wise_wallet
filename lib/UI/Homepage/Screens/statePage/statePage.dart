@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wise_wallet/UI/Homepage/Screens/statePage/Screens/expense/bloc/expenses_bloc.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/statePage/Screens/expense/expenseTab.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/statePage/Screens/income/incomeTab.dart';
 
@@ -37,7 +39,10 @@ class _StatePageState extends State<StatePage> {
             )
           ]),
         ),
-        body: TabBarView(children: [IncomeTab(), ExpenseTab()]),
+        body: BlocProvider(
+          create: (context) => ExpensesBloc(),
+          child: TabBarView(children: [IncomeTab(), ExpenseTab()]),
+        ),
       ),
     );
   }

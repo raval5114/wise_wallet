@@ -72,24 +72,6 @@ class _CustomHomePageState extends State<CustomHomePage> {
         showSelectedLabels: true,
         showUnselectedLabels: true,
       ),
-      //   floatingActionButton: FloatingActionButton(
-      //     shape: const CircleBorder(),
-      //     onPressed: () {
-      //       Navigator.push(
-      //           context,
-      //           MaterialPageRoute(
-      //             builder: (context) => ScannerSection(),
-      //           ));
-      //     },
-      //     backgroundColor: const Color(0xFF4A00E0),
-      //     child: const Icon(
-      //       Icons.center_focus_strong,
-      //       color: Colors.white,
-      //       size: 28,
-      //     ),
-      //   ),
-      //   floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // );
     );
   }
 }

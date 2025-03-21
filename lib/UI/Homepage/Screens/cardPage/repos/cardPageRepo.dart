@@ -5,9 +5,10 @@ import 'package:wise_wallet/Data/config.dart';
 import 'package:http/http.dart' as http;
 
 class Cardpagerepo {
-  final String _domain = DOMAIN_IP;
-
+  // final String _domain = DOMAIN_IP as String;
+  late String _domain;
   Future<Map<String, dynamic>> getAccountDetails() async {
+    _domain = await DOMAIN_IP;
     final SharedPreferences secureStorage =
         await SharedPreferences.getInstance();
     String? token = secureStorage.getString("token");

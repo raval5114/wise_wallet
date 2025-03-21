@@ -4,8 +4,9 @@ import 'package:wise_wallet/main.dart';
 
 class PasswordScreen extends StatelessWidget {
   final VoidCallback callBack;
-
-  const PasswordScreen({super.key, required this.callBack});
+  final VoidCallback navigationType;
+  const PasswordScreen(
+      {super.key, required this.callBack, required this.navigationType});
   @override
   Widget build(BuildContext context) {
     final customTheme = Theme.of(context).extension<CustomTheme>();
@@ -29,6 +30,7 @@ class PasswordScreen extends StatelessWidget {
       ),
       body: PasswordCheckingComponent(
         onPinEntered: callBack,
+        navigationType: navigationType,
       ),
     );
   }

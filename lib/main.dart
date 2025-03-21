@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:wise_wallet/Data/config.dart';
+import 'package:wise_wallet/Test/paymentMaking.dart';
 import 'package:wise_wallet/splashscreen.dart';
 
 void main() {
+  debugPrint("Fetching local IP...");
+  debugPrint("Local IP Address: ${DOMAIN_IP}");
   runApp(MyApp());
 }
 

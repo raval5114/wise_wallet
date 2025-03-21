@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wise_wallet/Test/payment_section_navigating_testing.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/homePage/bloc/home_page_bloc.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/homePage/repos/homePageRepo.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/homePage/widgets/src/actionButton.dart';
 import 'package:wise_wallet/UI/PaymentScreens/PasswordEnteringScreen/passwordScreen.dart';
 import 'package:intl/intl.dart';
+import 'package:wise_wallet/UI/PaymentScreens/PaymentSection/paymentSection.dart';
 
 class BalanceCard extends StatefulWidget {
   const BalanceCard({super.key});
@@ -17,12 +19,11 @@ class BalanceCard extends StatefulWidget {
 class _BalanceCardState extends State<BalanceCard> {
   late final SharedPreferences prefs;
   bool _isBalanceVisible = false;
-  late String balc;
+  late String balc = "";
 
   @override
   void initState() {
     super.initState();
-    checkingBalanceVisiblity();
   }
 
   void checkingBalanceVisiblity() async {
@@ -50,7 +51,11 @@ class _BalanceCardState extends State<BalanceCard> {
             context,
             MaterialPageRoute(
               builder: (context) => PasswordScreen(
-                callBack: () => homePageRepo.getBalance(),
+                callBack: () async {
+                  await homePageRepo.getBalance();
+                  checkingBalanceVisiblity(); // Refresh balance after fetching
+                },
+                navigationType: () => Navigator.pop(context),
               ),
             ),
           );
@@ -102,10 +107,49 @@ class _BalanceCardState extends State<BalanceCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ActionButton(icon: Icons.send, label: "Transfer"),
-                    ActionButton(icon: Icons.download, label: "Withdraw"),
-                    ActionButton(icon: Icons.list_alt, label: "Bills"),
-                    ActionButton(icon: Icons.subscriptions, label: "OTT"),
+                    ActionButton(
+                      icon: Icons.send,
+                      label: "Transfer",
+                      onBtnClicked: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (context) {
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom),
+                              child: StatefulBuilder(
+                                builder: (context, setState) {
+                                  return PaymentSectionViaNumber();
+                                },
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    ActionButton(
+                      icon: Icons.download,
+                      label: "Receive",
+                      onBtnClicked: () {
+                        debugPrint("Withdraw button clicked");
+                      },
+                    ),
+                    ActionButton(
+                      icon: Icons.list_alt,
+                      label: "Bills",
+                      onBtnClicked: () {
+                        debugPrint("Bills button clicked");
+                      },
+                    ),
+                    ActionButton(
+                      icon: Icons.subscriptions,
+                      label: "OTT",
+                      onBtnClicked: () {
+                        debugPrint("OTT button clicked");
+                      },
+                    ),
                   ],
                 ),
               ],

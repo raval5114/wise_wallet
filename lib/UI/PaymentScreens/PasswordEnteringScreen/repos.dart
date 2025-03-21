@@ -12,6 +12,7 @@ class PasswordEnteringScreenRepo {
 
   /// Sends a PIN to the server for verification.
   Future<bool> checkPin(String pin) async {
+    String _domain = await DOMAIN_IP;
     try {
       SharedPreferences storage = await _getStorage();
       String? token = storage.getString('token');
@@ -23,7 +24,7 @@ class PasswordEnteringScreenRepo {
 
       // Ensure the domain contains HTTP or HTTPS
       String baseUrl =
-          DOMAIN_IP.startsWith("http") ? DOMAIN_IP : "http://$DOMAIN_IP";
+          _domain.startsWith("http") ? _domain : "http://$DOMAIN_IP";
       Uri uri = Uri.parse("$baseUrl:3000/banks/verifyPin");
 
       Map<String, String> headers = {

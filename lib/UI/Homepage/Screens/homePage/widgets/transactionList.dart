@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-
-import 'package:wise_wallet/UI/Homepage/Screens/homePage/widgets/src/transaction.dart'; // For date formatting
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:wise_wallet/UI/Homepage/Screens/homePage/bloc/home_page_bloc.dart';
+import 'package:wise_wallet/UI/Homepage/Screens/homePage/widgets/src/transaction.dart';
 
 class Transactionlist extends StatefulWidget {
   const Transactionlist({super.key});
@@ -10,104 +12,94 @@ class Transactionlist extends StatefulWidget {
 }
 
 class _TransactionlistState extends State<Transactionlist> {
-  // Sample data for transactions
-  List<Map<String, dynamic>> transactions = [
-    {
-      "icon": Icons.video_library,
-      "title": "YouTube",
-      "subtitle": "Subscription Payment",
-      "amount": "-\$15.00",
-      "isIncome": false,
-      "date": DateTime(2024, 5, 16),
-    },
-    {
-      "icon": Icons.attach_money,
-      "title": "Stripe",
-      "subtitle": "Monthly Salary",
-      "amount": "+\$3000.00",
-      "isIncome": true,
-      "date": DateTime(2024, 5, 15),
-    },
-    {
-      "icon": Icons.book,
-      "title": "Google Play",
-      "subtitle": "E-book Purchase",
-      "amount": "-\$12.99",
-      "isIncome": false,
-      "date": DateTime(2024, 5, 14),
-    },
-    {
-      "icon": Icons.money,
-      "title": "OVO",
-      "subtitle": "Top Up E-Money",
-      "amount": "-\$180.00",
-      "isIncome": false,
-      "date": DateTime(2024, 5, 18),
-    },
-    {
-      "icon": Icons.money,
-      "title": "OVO",
-      "subtitle": "Top Up E-Money",
-      "amount": "-\$180.00",
-      "isIncome": false,
-      "date": DateTime(2024, 5, 18),
-    },
-    {
-      "icon": Icons.money,
-      "title": "OVO",
-      "subtitle": "Top Up E-Money",
-      "amount": "-\$180.00",
-      "isIncome": false,
-      "date": DateTime(2024, 5, 18),
-    },
-    {
-      "icon": Icons.money,
-      "title": "OVO",
-      "subtitle": "Top Up E-Money",
-      "amount": "-\$180.00",
-      "isIncome": false,
-      "date": DateTime(2024, 5, 18),
-    },
-    {
-      "icon": Icons.money,
-      "title": "OVO",
-      "subtitle": "Top Up E-Money",
-      "amount": "-\$180.00",
-      "isIncome": false,
-      "date": DateTime(2024, 5, 18),
-    }
-  ];
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<HomePageBloc>(context)
+        .add(TransactionListFetchingEvent()); // Fetch transactions
+  }
 
   @override
   Widget build(BuildContext context) {
+    return BlocConsumer<HomePageBloc, HomePageState>(
+      listenWhen: (previous, current) => current is HomepageActionState,
+      buildWhen: (previous, current) => current is! HomepageActionState,
+      listener: (context, state) {},
+      builder: (context, state) {
+        if (state is HomepageTransactionListLoadingState) {
+          return _buildShimmerLoading();
+        } else if (state is HomepageTransactionListSuccessState) {
+          return _buildTransactionList(state.data);
+        } else if (state is HomepageTransactionListErrorState) {
+          return Center(
+            child: Text("Error:${state.errorPage}"),
+          );
+        } else {
+          return const Center(child: Text("No transactions available"));
+        }
+      },
+    );
+  }
+
+  /// **Shimmer Effect while loading**
+  Widget _buildShimmerLoading() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Column(
+        children: List.generate(
+          5,
+          (index) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            child: Container(
+              height: 70,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// **Transaction List UI**
+  Widget _buildTransactionList(List<Map<String, dynamic>> transactions) {
+    if (transactions.isEmpty) {
+      return const Center(child: Text("No transactions available"));
+    }
+
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0),
-            child: const Text(
+          const Padding(
+            padding: EdgeInsets.only(left: 15.0),
+            child: Text(
               "Recent Transactions",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
           const SizedBox(height: 8),
-          // Wrap ListView.builder with Container to ensure size is fixed
           SizedBox(
-            height: 400, // Fixed height for the list inside SizedBox
+            height: 400,
             child: ListView.builder(
-              shrinkWrap: true,
               itemCount: transactions.length,
               itemBuilder: (context, index) {
                 var transaction = transactions[index];
                 return Transaction(
-                  icon: Icons.video_call,
-                  title: "Title",
-                  subtitle: "Subtitle",
-                  amount: "000000",
-                  isIncome: false,
-                  date: transaction['date'].toString(),
+                  icon: transaction['icon'] ??
+                      Icons.attach_money, // Default icon if missing
+                  title: transaction['title'] ?? "Unknown",
+                  subtitle: transaction['category'] ?? "No details",
+                  amount: transaction['amount'].toString() ?? "\$0.00",
+                  isIncome: transaction['transactionType'] == 'Expense'
+                      ? false
+                      : true,
+                  date: transaction['time'].toString(),
                 );
               },
             ),

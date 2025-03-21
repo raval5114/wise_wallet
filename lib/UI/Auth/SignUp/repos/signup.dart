@@ -5,8 +5,9 @@ import 'package:wise_wallet/Data/config.dart';
 import 'package:wise_wallet/Data/user.dart';
 
 class Signup {
-  final String _domain = DOMAIN_URL;
+  late String _domain;
   Future<Map<String, dynamic>> signUp(Map<String, dynamic> user) async {
+    _domain = await DOMAIN_IP;
     final url = Uri.parse("$_domain:3000/auth/Signup");
 
     // Validate input fields

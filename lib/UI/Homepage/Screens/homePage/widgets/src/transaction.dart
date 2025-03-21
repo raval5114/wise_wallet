@@ -27,7 +27,7 @@ class Transaction extends StatelessWidget {
         ),
         title: Text(
           title,
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(fontSize: 15),
         ),
         subtitle: Text(
           subtitle,
@@ -38,12 +38,13 @@ class Transaction extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              amount,
+              "Rs.$amount",
               style: TextStyle(
                   color: isIncome ? Colors.green : Colors.red,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold),
             ),
-            Text(date, style: const TextStyle(fontSize: 12)),
+            Text(date, style: const TextStyle(fontSize: 10)),
           ],
         ),
       ),

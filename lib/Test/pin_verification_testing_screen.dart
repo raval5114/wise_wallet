@@ -18,7 +18,10 @@ class CheckPasswordScreenTesting extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: PasswordCheckingComponent(onPinEntered: runOnPinEntered),
+      body: PasswordCheckingComponent(
+        onPinEntered: runOnPinEntered,
+        navigationType: () {},
+      ),
     );
   }
 }

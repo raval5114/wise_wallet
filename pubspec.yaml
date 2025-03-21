@@ -50,6 +50,7 @@ dependencies:
   persistent_bottom_nav_bar: ^6.2.1
   fluttertoast: ^8.2.12
   shared_preferences: ^2.5.2
+  shimmer: ^3.0.0
 flutter_native_splash:
   color: "#ffffff" # Background color of the splash screen
   image: assets/app_logo.png # Path to the splash image

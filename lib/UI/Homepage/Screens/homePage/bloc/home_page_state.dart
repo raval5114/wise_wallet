@@ -11,4 +11,16 @@ class NavigateToPINPortalState extends HomepageActionState {
   }
 }
 
+class HomepageTransactionListLoadingState extends HomePageState {}
+
+class HomepageTransactionListSuccessState extends HomePageState {
+  final List<Map<String, dynamic>> data;
+  HomepageTransactionListSuccessState({required this.data});
+}
+
+class HomepageTransactionListErrorState extends HomePageState {
+  final String errorPage;
+  HomepageTransactionListErrorState({required this.errorPage});
+}
+
 final class HomePageInitial extends HomePageState {}

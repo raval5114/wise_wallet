@@ -3,7 +3,9 @@ import 'package:wise_wallet/UI/PaymentScreens/PasswordEnteringScreen/repos.dart'
 
 class PasswordCheckingComponent extends StatefulWidget {
   final VoidCallback onPinEntered;
-  const PasswordCheckingComponent({super.key, required this.onPinEntered});
+  final VoidCallback navigationType;
+  const PasswordCheckingComponent(
+      {super.key, required this.onPinEntered, required this.navigationType});
 
   @override
   State<PasswordCheckingComponent> createState() =>
@@ -65,7 +67,7 @@ class _PasswordCheckingComponentState extends State<PasswordCheckingComponent> {
         debugPrint("Calling onPinEntered...");
         widget.onPinEntered();
         Future.delayed(const Duration(milliseconds: 200), () {
-          Navigator.pop(context);
+          widget.navigationType();
         });
       } else {
         setState(() => _errorMessage = "Invalid PIN!");

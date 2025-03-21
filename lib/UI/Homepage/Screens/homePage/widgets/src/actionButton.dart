@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 class ActionButton extends StatefulWidget {
   final IconData icon;
   final String label;
-
-  const ActionButton({super.key, required this.icon, required this.label});
+  final VoidCallback onBtnClicked;
+  const ActionButton(
+      {super.key,
+      required this.icon,
+      required this.label,
+      required this.onBtnClicked});
 
   @override
   State<ActionButton> createState() => _ActionButtonState();
@@ -14,9 +18,7 @@ class _ActionButtonState extends State<ActionButton> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        debugPrint("Action Button Pressed: ${widget.label}");
-      },
+      onTap: widget.onBtnClicked,
       borderRadius: BorderRadius.circular(50), // For smoother ripple effect
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

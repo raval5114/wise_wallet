@@ -8,7 +8,7 @@ import 'package:wise_wallet/Data/config.dart';
 import 'package:wise_wallet/Data/user.dart';
 
 class Auth {
-  final String _domain = DOMAIN_IP;
+  late String _domain;
   SharedPreferences? storage;
 
   Auth() {
@@ -18,6 +18,7 @@ class Auth {
   Future<void> _initStorage() async {
     try {
       storage = await SharedPreferences.getInstance();
+      _domain = await DOMAIN_IP;
     } catch (e) {
       debugPrint("Error initializing SharedPreferences: $e");
     }
