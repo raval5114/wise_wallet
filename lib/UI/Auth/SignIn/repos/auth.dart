@@ -6,6 +6,7 @@ import 'dart:async'; // For TimeoutException
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wise_wallet/Data/config.dart';
 import 'package:wise_wallet/Data/user.dart';
+import 'package:wise_wallet/UI/Homepage/Screens/cardPage/repos/cardPageRepo.dart';
 
 class Auth {
   late String _domain;
@@ -90,6 +91,10 @@ class Auth {
         final Map<String, dynamic> data = jsonDecode(response.body);
         if (data.containsKey('user')) {
           userSession.loadSession(data['user']);
+          Map<String, dynamic> listOfCard =
+              await cardpagerepo.getAccountDetails();
+          userSession.setBankAccountDetails(listOfCard);
+          debugPrint("User data: ${userSession.userBankAccountDetails}");
         } else {
           throw Exception("User data not found in response.");
         }

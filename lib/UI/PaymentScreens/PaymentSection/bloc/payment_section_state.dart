@@ -14,6 +14,12 @@ class PaymentSectionContactSearchingSuccessState extends PaymentSectionState {
   PaymentSectionContactSearchingSuccessState({required this.data});
 }
 
+class PaymentSectionBankSelectionLoadingState extends PaymentSectionState {}
+
+class PaymentSectionBankSelectionSuccessState extends PaymentSectionState {
+  PaymentSectionBankSelectionSuccessState();
+}
+
 class PaymentSectionErrorState extends PaymentSectionState {
   String error;
   PaymentSectionErrorState({required this.error});

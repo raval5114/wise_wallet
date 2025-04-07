@@ -68,33 +68,35 @@ class HomePageRepo {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getTransactions() async {
-    await _initStorage();
-    String? token = storage.getString('token');
-
-    if (token == null || token.isEmpty) {
-      throw Exception('Invalid or Expired Token');
-    }
-
-    Uri url = Uri.parse("$DOMAIN_IP:3000/transactions/fetchTransactions");
-
-    final headers = {
-      'Authorization': 'Bearer $token',
-      'Content-Type': 'application/json',
-    };
-
+  Future<List<Map<String, dynamic>>> getTransactions({
+    required int mobileNumber,
+  }) async {
     try {
-      final response = await http.post(url, headers: headers);
+      final uri = Uri.parse("$DOMAIN_IP:3000/transactions/fetchTransactions");
+      final Map<String, dynamic> body = {
+        "mobileno": mobileNumber,
+      };
+
+      debugPrint("Fetching transactions from: $uri");
+      debugPrint("Request Body: ${jsonEncode(body)}");
+
+      final response = await http.post(
+        uri,
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: jsonEncode(body),
+      );
 
       if (response.statusCode == 200) {
         List<dynamic> transactions = jsonDecode(response.body);
-        debugPrint("${transactions}");
         return List<Map<String, dynamic>>.from(transactions);
       } else {
         throw Exception("Failed to fetch transactions: ${response.body}");
       }
     } catch (e) {
-      throw Exception("Error: ${e.toString()}");
+      throw Exception("Error fetching transactions: $e");
     }
   }
 }

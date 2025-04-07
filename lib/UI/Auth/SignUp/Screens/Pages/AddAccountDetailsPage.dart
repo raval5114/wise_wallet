@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wise_wallet/UI/Auth/SignIn/signIn.dart';
 import 'package:wise_wallet/UI/Auth/SignUp/Screens/src/addAccount.dart';
 import 'package:wise_wallet/UI/Auth/SignUp/bloc/sign_up_bloc.dart';
 import 'package:wise_wallet/UI/Homepage/Homepage.dart';
@@ -31,7 +32,7 @@ class _AddAccountDetailsPageState extends State<AddAccountDetailsPage> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => CustomHomePage(),
+              builder: (context) => LoginScreen(),
             ),
           );
         }

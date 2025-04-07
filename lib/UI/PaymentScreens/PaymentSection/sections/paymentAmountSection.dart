@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wise_wallet/Data/models/payment.dart';
 
 class PaymentAmountSection extends StatefulWidget {
   final Function(int, Map<String, dynamic>?) onNavigate;
@@ -85,7 +86,9 @@ class _PaymentAmountSectionState extends State<PaymentAmountSection> {
                       if (num == "C") {
                         amountController.text = "";
                       } else if (num == "✔") {
-                        widget.onNavigate(3, {
+                        payment.amount =
+                            double.tryParse(amountController.text) ?? 0.0;
+                        widget.onNavigate(4, {
                           "name": widget.data['accountHolderName'],
                           "mobile number": widget.data['mobile number'],
                           "selected bank": widget.data['selected bank'],

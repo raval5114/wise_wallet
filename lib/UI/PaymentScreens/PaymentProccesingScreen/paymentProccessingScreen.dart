@@ -14,17 +14,34 @@ class PaymentProcessingScreen extends StatelessWidget {
       backgroundColor: Colors.grey[100],
       body: Center(
         child: BlocProvider(
-          create: (context) =>
-              PaymentProcessingBloc()..add(PaymentProcessingEvent(data: data)),
-          child: PaymentProcessingScreenComponent(),
+          create: (context) => PaymentProcessingBloc(),
+          child: PaymentProcessingScreenComponent(
+            data: data,
+          ),
         ),
       ),
     );
   }
 }
 
-class PaymentProcessingScreenComponent extends StatelessWidget {
-  const PaymentProcessingScreenComponent({super.key});
+class PaymentProcessingScreenComponent extends StatefulWidget {
+  final Map<String, dynamic> data;
+  const PaymentProcessingScreenComponent({super.key, required this.data});
+
+  @override
+  State<PaymentProcessingScreenComponent> createState() =>
+      _PaymentProcessingScreenComponentState();
+}
+
+class _PaymentProcessingScreenComponentState
+    extends State<PaymentProcessingScreenComponent> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<PaymentProcessingBloc>(context).add(
+      PaymentProcessingEvent(data: widget.data),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +67,6 @@ class PaymentProcessingScreenComponent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text("Payment failed. Please try again."),
-              ElevatedButton(
-                onPressed: () => context
-                    .read<PaymentProcessingBloc>()
-                    .add(PaymentProcessingEvent(data: {})),
-                child: const Text("Retry"),
-              ),
             ],
           ),
         );

@@ -17,7 +17,7 @@ class ChartData {
   factory ChartData.fromJson(Map<String, dynamic> json) {
     return ChartData(
       categoryName: json["categoryName"] as String,
-      color: getRandomColor(), // Automatically assign color
+      color: getRandomColor(),
       percent: (json["percent"] as num).toDouble(),
       amount: (json["amount"] as num).toDouble(),
     );

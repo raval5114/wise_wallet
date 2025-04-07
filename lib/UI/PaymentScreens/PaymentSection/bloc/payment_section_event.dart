@@ -7,3 +7,7 @@ class PaymentSectionContactSearchingEvent extends PaymentSectionEvent {
   final String number;
   PaymentSectionContactSearchingEvent({required this.number});
 }
+
+class PaymentSectionBankSelectionEvent extends PaymentSectionEvent {
+  PaymentSectionBankSelectionEvent();
+}

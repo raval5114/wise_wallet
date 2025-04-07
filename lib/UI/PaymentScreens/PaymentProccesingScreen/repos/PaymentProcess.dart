@@ -1,32 +1,90 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wise_wallet/Data/config.dart';
 
 class PaymentProcessService {
   /// Handles payment via mobile number
-  static Future<Map<String, dynamic>> payViaNumber({
-    required String fromNumber,
-    required String toNumber,
+  static Future<void> payViaNumber({
+    required int fromNumber,
+    required int toNumber,
     required double amount,
   }) async {
     try {
-      final uri = Uri.parse("$DOMAIN_IP:3000/payment/payViaNumber");
+      final uri = Uri.parse("http://$DOMAIN_IP:3000/payment/payViaNumber");
+
+      final Map<String, dynamic> body = {
+        "fromNumber": fromNumber, // Ensure it's a number
+        "toNumber": toNumber,
+        "amount": amount.toDouble(), // Ensure it's a double
+      };
+
+      debugPrint("Sending Request to: $uri");
+      debugPrint("Request Body: ${jsonEncode(body)}");
+
       final response = await http.patch(
         uri,
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
         },
-        body: jsonEncode({
-          "fromNumber": int.tryParse(fromNumber) ?? 0, // Safe parsing
-          "toNumber": int.tryParse(toNumber) ?? 0,
-          "amount": amount, // Ensure this is a double
-        }),
+        body: jsonEncode(body),
       );
 
-      return _handleResponse(response);
+      debugPrint("Response: ${response.body}");
+
+      if (response.statusCode == 200) {
+        debugPrint("Payment Successful!");
+      } else {
+        throw Exception("Failed: ${response.body}");
+      }
     } catch (e) {
-      throw Exception("Payment via Number Failed: $e");
+      debugPrint("Payment Error: $e");
+    }
+  }
+
+  static Future<bool> payViaSpecificBank({
+    required int fromNumber,
+    required int toNumber,
+    required String fromBank,
+    required String toBank,
+    required double amount,
+  }) async {
+    try {
+      final uri = Uri.parse("$DOMAIN_IP:3000/payment/payViaSpecificBank");
+
+      final Map<String, dynamic> body = {
+        "fromNumber": fromNumber,
+        "toNumber": toNumber,
+        "fromBank": fromBank,
+        "toBank": toBank,
+        "amount": amount,
+      };
+
+      debugPrint("Sending Request to: $uri");
+      debugPrint("Request Body: ${jsonEncode(body)}");
+
+      final response = await http.patch(
+        uri,
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: jsonEncode(body),
+      );
+
+      debugPrint("Response: ${response.body}");
+
+      if (response.statusCode == 200) {
+        debugPrint("Payment via Specific Bank Successful!");
+        return true;
+      } else {
+        debugPrint("Failed: ${response.body}");
+        return false;
+      }
+    } catch (e) {
+      debugPrint("Payment via Specific Bank Error: $e");
+      return false;
     }
   }
 

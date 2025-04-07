@@ -47,6 +47,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
               emailOrMobile, password); // Await the sign-in process
           await auth.getDashBoard(token);
           debugPrint("${userSession.firstName}\n ${userSession.lastName}");
+          debugPrint("${userSession.email}\n ${userSession.mobile}");
           emit(SignInUserLoggedInState());
         } catch (authError) {
           debugPrint("Authentication failed: $authError");

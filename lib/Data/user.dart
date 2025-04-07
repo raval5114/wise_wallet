@@ -8,7 +8,7 @@ class User extends UserBankAccount {
     lastName = json['lastname'] ?? "NA";
     email = json['email'] ?? "NA";
     dob = json['dob'] ?? "NA";
-    mobile = json['mobileNo'] ?? "NA";
+    mobile = json['mobile'] ?? "NA";
     password = json['password'] ?? "Na";
   }
 

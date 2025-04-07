@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wise_wallet/UI/PaymentScreens/PaymentSection/bloc/payment_section_bloc.dart';
 import 'package:wise_wallet/UI/PaymentScreens/PaymentSection/sections/PaymentAcknowledgementSection.dart';
 import 'package:wise_wallet/UI/PaymentScreens/PaymentSection/sections/bankDetailsSection.dart';
+import 'package:wise_wallet/UI/PaymentScreens/PaymentSection/sections/bankSelectionSection.dart';
 import 'package:wise_wallet/UI/PaymentScreens/PaymentSection/sections/contactNumberSearchingSection.dart';
 import 'package:wise_wallet/UI/PaymentScreens/PaymentSection/sections/paymentAmountSection.dart';
 
@@ -25,8 +26,10 @@ class _PaymentSectionViaNumberState extends State<PaymentSectionViaNumber> {
       case 1:
         return 531;
       case 2:
-        return 800;
+        return 650;
       case 3:
+        return 800;
+      case 4:
         return 450;
       default:
         return 500;
@@ -105,16 +108,22 @@ class _PaymentSectionViaNumberState extends State<PaymentSectionViaNumber> {
                             data: sharedData,
                           )
                         : currentContainer == 2
-                            ? PaymentAmountSection(
-                                key: ValueKey<int>(2),
-                                onNavigate: switchContainer,
-                                data: sharedData,
-                              )
-                            : PaymentAcknowledgementSection(
+                            ? BankSelectionSection(
                                 key: ValueKey<int>(3),
                                 onNavigate: switchContainer,
                                 data: sharedData,
-                              ),
+                              )
+                            : currentContainer == 3
+                                ? PaymentAmountSection(
+                                    key: ValueKey<int>(2),
+                                    onNavigate: switchContainer,
+                                    data: sharedData,
+                                  )
+                                : PaymentAcknowledgementSection(
+                                    key: ValueKey<int>(4),
+                                    onNavigate: switchContainer,
+                                    data: sharedData,
+                                  ),
               ),
             ),
           ),

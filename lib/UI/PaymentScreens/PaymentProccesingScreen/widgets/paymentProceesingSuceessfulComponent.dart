@@ -53,7 +53,6 @@ class PaymentProcessingSuccessfulComponent extends StatelessWidget {
                 const SizedBox(height: 20),
 
                 // Transaction Details
-                _buildDetailCard("Account Holder", data['name']),
                 _buildDetailCard(
                     "Mobile Number", data['mobile number'].toString()),
                 _buildDetailCard("Bank", data['selected bank']),
