@@ -11,7 +11,7 @@ class PaymentProcessService {
     required double amount,
   }) async {
     try {
-      final uri = Uri.parse("http://$DOMAIN_IP:3000/payment/payViaNumber");
+      final uri = Uri.parse("$DOMAIN_IP:3000/payment/payViaNumber");
 
       final Map<String, dynamic> body = {
         "fromNumber": fromNumber, // Ensure it's a number

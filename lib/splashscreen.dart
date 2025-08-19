@@ -86,7 +86,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   const SizedBox(height: 5.0),
                   // Subtitle (Cool Tagline)
                   const Text(
-                    'Your Smart Financial Companion', // A cool tagline
+                    'Your Smart Financial Companion',
                     style: TextStyle(
                       color:
                           Colors.white70, // Softer white color for the subtitle

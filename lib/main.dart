@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wise_wallet/Data/config.dart';
+import 'package:wise_wallet/Test/paymentMaking.dart';
+import 'package:wise_wallet/UI/PaymentScreens/ScannerPaymentScreen/amountWritingScreen.dart';
 import 'package:wise_wallet/splashscreen.dart';
 
 void main() {

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wise_wallet/Data/user.dart';
 import 'package:wise_wallet/Test/payment_section_navigating_testing.dart';
+import 'package:wise_wallet/UI/Homepage/Screens/ScannerSection/widgets/generateScanner.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/homePage/bloc/home_page_bloc.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/homePage/repos/homePageRepo.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/homePage/widgets/src/actionButton.dart';
@@ -133,7 +135,24 @@ class _BalanceCardState extends State<BalanceCard> {
                       icon: Icons.download,
                       label: "Receive",
                       onBtnClicked: () {
-                        debugPrint("Withdraw button clicked");
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (context) {
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom),
+                              child: StatefulBuilder(
+                                builder: (context, setState) {
+                                  return GenerateScanner(
+                                    fromNumber: int.parse(userSession.mobile!),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        );
                       },
                     ),
                     ActionButton(

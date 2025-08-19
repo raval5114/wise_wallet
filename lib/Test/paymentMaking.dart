@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wise_wallet/Data/models/payment.dart';
 import 'package:wise_wallet/UI/PaymentScreens/PaymentProccesingScreen/bloc/payment_processing_bloc.dart';
+import 'package:wise_wallet/UI/PaymentScreens/PaymentProccesingScreen/repos/PaymentProcess.dart';
 
 class PaymentProcessingScreen extends StatelessWidget {
   const PaymentProcessingScreen({
@@ -30,23 +32,27 @@ class PaymentmakingComponent extends StatefulWidget {
 
 class _PaymentmakingComponentState extends State<PaymentmakingComponent> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    payment.fromNumber = 9033360826;
+    payment.toNumber = 9033360826;
+    payment.amount = 0.0;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () => showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        builder: (context) {
-          return Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: StatefulBuilder(
-              builder: (context, setState) {
-                return PaymentProcessingScreen();
-              },
-            ),
-          );
-        },
-      ),
+      onPressed: () => {
+        debugPrint("Payment Section"),
+        debugPrint("From Number:${payment.fromNumber}"),
+        debugPrint("To Number:${payment.toNumber}"),
+        debugPrint("Amount:${payment.amount}"),
+        PaymentProcessService.payViaNumber(
+            fromNumber: payment.fromNumber,
+            toNumber: payment.toNumber,
+            amount: payment.amount)
+      },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.blueAccent,
       ),
