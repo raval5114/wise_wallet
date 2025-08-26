@@ -7,11 +7,12 @@ final class WalletPageSignupEvent extends WalletSignUpEvent {
   final String firstName;
   final String lastName;
   final String email;
-  final String MobileNumber;
-
+  final String mobileNumber;
+  final String password;
   WalletPageSignupEvent(
       {required this.firstName,
       required this.lastName,
       required this.email,
-      required this.MobileNumber});
+      required this.mobileNumber,
+      required this.password});
 }

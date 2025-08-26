@@ -6,8 +6,8 @@ part 'wallet_sign_up_state.dart';
 
 class WalletSignUpBloc extends Bloc<WalletSignUpEvent, WalletSignUpState> {
   WalletSignUpBloc() : super(WalletSignUpInitial()) {
-    on<WalletSignUpEvent>((event, emit) async {
-      emit(WalletSignupLoadingEvent());
+    on<WalletPageSignupEvent>((event, emit) async {
+      emit(WalletSignupLoadingState());
       try {
         await Future.delayed(Duration(seconds: 5));
         emit(WalletSignupSuccessfullState());

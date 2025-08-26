@@ -7,12 +7,13 @@ class SignUpPasswordSettingComponent extends StatefulWidget {
   final String lastName;
   final String email;
   final String mobileNo;
-  const SignUpPasswordSettingComponent(
-      {super.key,
-      required this.firstName,
-      required this.lastName,
-      required this.email,
-      required this.mobileNo});
+  const SignUpPasswordSettingComponent({
+    super.key,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.mobileNo,
+  });
 
   @override
   State<SignUpPasswordSettingComponent> createState() =>
@@ -26,12 +27,22 @@ class _SignUpPasswordSettingComponentState
       TextEditingController();
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<WalletSignUpBloc, WalletSignUpState>(
       listener: (context, state) {
-        // TODO: implement listener
+        if (state is WalletSignupLoadingState) {
+          setState(() => isLoading = true);
+        }
+        if (state is WalletSignupSuccessfullState ||
+            state is WalletSignupErrorMsg) {
+          setState(() => isLoading = false);
+          if (state is WalletSignupErrorMsg) {
+            debugPrint(state.errMsg);
+          }
+        }
       },
       builder: (context, state) {
         return SafeArea(
@@ -112,16 +123,35 @@ class _SignUpPasswordSettingComponentState
                   const SizedBox(height: 30),
 
                   ElevatedButton(
-                    onPressed: () {
-                      // TODO: Validate and proceed
-                    },
+                    onPressed: isLoading
+                        ? null
+                        : () {
+                            context.read<WalletSignUpBloc>().add(
+                                  WalletPageSignupEvent(
+                                    firstName: widget.firstName,
+                                    lastName: widget.lastName,
+                                    email: widget.email,
+                                    mobileNumber: widget.mobileNo,
+                                    password: _passwordController.text.trim(),
+                                  ),
+                                );
+                          },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text("Save Password"),
+                    child: isLoading
+                        ? const SizedBox(
+                            height: 22,
+                            width: 22,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : const Text("Save Password"),
                   ),
                 ],
               ),
