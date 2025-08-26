@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wise_wallet/UI/Homepage/Screens/offlineAccount/offlineAccountPage.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/profilePage/widgets/src/listTile.dart';
 
 class GeneralSettings extends StatefulWidget {
@@ -54,6 +55,20 @@ class _GeneralSettingsState extends State<GeneralSettings> {
               // Handle Change Password
             },
           ),
+          const Divider(thickness: 1, color: Colors.grey, height: 24),
+          ListTileForProfilePage(
+            'Offline Account',
+            icon: Icons.person,
+            callBack: () {
+              // Handle Change Password
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OfflineAccountPage(),
+                  ));
+            },
+          ),
+
           const Divider(thickness: 1, color: Colors.grey, height: 24),
           ListTileForProfilePage(
             'Notifications',

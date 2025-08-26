@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wise_wallet/Data/user.dart';
-import 'package:wise_wallet/Test/payment_section_navigating_testing.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/ScannerSection/widgets/generateScanner.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/homePage/bloc/home_page_bloc.dart';
 import 'package:wise_wallet/UI/Homepage/Screens/homePage/repos/homePageRepo.dart';
